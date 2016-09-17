@@ -1,8 +1,6 @@
 #!/usr/bin/env python
 import os
 import requests
-# import requests_cache
-# requests_cache.install_cache('/data/icgc_cache')
 
 projects = [p["id"] for p in requests.get("https://dcc.icgc.org/api/v1/projects?size=1000").json()["hits"]]
 print("Found {} projects".format(len(projects)))

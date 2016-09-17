@@ -4,8 +4,8 @@
 # between running of this script. If you want to start completely fresh
 # delete ./ipfs/*
 
-# domains="cgt.ucsf.edu cgt.ucdavis.edu cgt.mskcc.org cgt.nki.nl cgt.unimelb.edu.au cgt.singhealth.com.sg"
-domains="cgt.ucsf.edu"
+domains="cgt.ucsf.edu cgt.ucdavis.edu cgt.mskcc.org cgt.nki.nl cgt.unimelb.edu.au cgt.singhealth.com.sg"
+# domains="cgt.ucsf.edu"
 
 source "${BASH_SOURCE%/*}/down.sh"
 
