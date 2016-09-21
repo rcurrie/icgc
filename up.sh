@@ -4,28 +4,13 @@
 # between running of this script. If you want to start completely fresh
 # delete ./ipfs/*
 
-domains="cgt.ucsf.edu cgt.ucdavis.edu cgt.mskcc.org cgt.nki.nl cgt.unimelb.edu.au cgt.singhealth.com.sg"
-# domains="cgt.ucsf.edu"
-
-source "${BASH_SOURCE%/*}/down.sh"
-
-# Get the latest containers
-docker pull ipfs/go-ipfs:release
-docker pull robcurrie/cgtd:latest
+domains="ucsf.edu ucdavis.edu nki.nl unimelb.edu.au singhealth.com.sg"
+# domains="ucsf.edu"
 
 for domain in $domains; do
-    echo "Launching $domain ipfs server stored in ./ipfs/$domain"
-    mkdir -p `pwd`/ipfs/$domain
-    # Initialize the ipfs datastore
-	docker run -it --rm --name demo_ipfs_$domain -v `pwd`/ipfs/$domain:/data/ipfs --entrypoint=ipfs \
-        ipfs/go-ipfs:release init
-    # By default ipfs only listens on 127.0.0.1, make it listen to lined cgtd
-	docker run -it --rm --name demo_ipfs_$domain -v `pwd`/ipfs/$domain:/data/ipfs --entrypoint=ipfs \
-		ipfs/go-ipfs:release config Addresses.API /ip4/0.0.0.0/tcp/5001
-	docker run -it --rm --name demo_ipfs_$domain -v `pwd`/ipfs/$domain:/data/ipfs --entrypoint=ipfs \
-		ipfs/go-ipfs:release config Addresses.Gateway /ip4/0.0.0.0/tcp/8080
-    # REMIND: What about incoming swarm ports?
-    docker run -d --name demo_ipfs_$domain -v `pwd`/ipfs/$domain:/data/ipfs ipfs/go-ipfs:release
+    echo "Launching $domain ipfs server stored in ./data/$domain"
+    mkdir -p `pwd`/data/$domain
+    docker run -d --name demo_ipfs_$domain -v `pwd`/data/$domain:/data/ipfs ipfs/go-ipfs:v0.4.3-rc4
 done
 
 echo "Waiting until ipfs servers are up..."
@@ -38,6 +23,6 @@ for domain in $domains; do
     docker run -d --name demo_$domain --link demo_ipfs_$domain:ipfs robcurrie/cgtd:latest
 done
 
-# for domain in $domains; do
-#     docker exec icgc_$domain python tests/demo_data.py
-# done
+for domain in $domains; do
+    docker exec demo_$domain python tests/populate.py
+done
