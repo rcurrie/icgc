@@ -7,7 +7,7 @@ import json
 import requests
 
 submitted = []
-for name in [f for f in os.listdir("/data") if f.endswith(".json")][0:2]:
+for name in [f for f in os.listdir("/data") if f.endswith(".json")]:
     print("Submitting {}".format(name.rstrip(".json")))
 
     with open("/data/{}".format(name)) as f:

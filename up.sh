@@ -24,7 +24,3 @@ for domain in $domains; do
         -v /data/icgc_extracted/$domain:/data \
         -v `pwd`/populate.py:/populate.py robcurrie/cgtd:latest
 done
-
-for domain in $domains; do
-    docker exec demo_$domain python /populate.py
-done
