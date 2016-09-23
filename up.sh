@@ -4,13 +4,13 @@
 # between running of this script. If you want to start completely fresh
 # delete ./ipfs/*
 
-domains="Australia  Brazil  European Union  France  United_Kingdom  United_States"
+domains="China  France  Germany  South_Korea  United_Kingdom  United_States"
 # domains="Australia  Brazil"
 
 for domain in $domains; do
     echo "Launching and initializing $domain ipfs server"
     mkdir -p /data/ipfs/$domain
-    docker run -d --name demo_ipfs_$domain -v /data/ipfs/$domain:/data/ipfs ipfs/go-ipfs:v0.4.3-rc4
+    docker run -d --name demo_ipfs_$domain -P -v /data/ipfs/$domain:/data/ipfs ipfs/go-ipfs:v0.4.3-rc4
 done
 
 echo "Waiting until ipfs servers are up..."

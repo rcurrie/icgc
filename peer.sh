@@ -1,5 +1,5 @@
 #!/bin/bash
-domains="ucsf.edu ucdavis.edu nki.nl unimelb.edu.au singhealth.com.sg"
+domains="China  France  Germany  South_Korea  United_Kingdom  United_States"
 for domain in $domains; do
     echo "Adding $domain as peer"
     address=`docker exec -it demo_$domain curl localhost:5000/v0/address | jq -r '.address'`
