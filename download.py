@@ -2,13 +2,16 @@
 import os
 import requests
 
-projects = [p["id"] for p in requests.get("https://dcc.icgc.org/api/v1/projects?size=1000").json()["hits"]]
+
+projects = [p["id"] for p in requests.get(
+    "https://dcc.icgc.org/api/v1/projects?size=1000").json()["hits"]]
 print("Found {} projects".format(len(projects)))
 
 data_type = ["simple_somatic_mutation.open", "exp_array", "donor"]
 
 files = [{"name": "{1}.{0}.tsv.gz".format(p, d),
-          "url": "https://dcc.icgc.org/api/v1/download?fn=/release_22/Projects/{0}/{1}.{0}.tsv.gz".format(p, d)}
+          "url": "https://dcc.icgc.org/api/v1/download?" +
+                 "fn=/release_22/Projects/{0}/{1}.{0}.tsv.gz".format(p, d)}
          for p in projects for d in data_type]
 
 for f in files:
