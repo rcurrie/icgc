@@ -45,4 +45,5 @@ for project in projects_with_ssm:
                                          donor_sample[0], donor_sample[1]), "w+") as fields:
             fields.write(json.dumps(
                 donors[donors["icgc_donor_id"] == donor_sample[0]].to_dict(orient='records')[0]))
-        variants.to_csv("{}/{}_{}.tsv".format(directory, donor_sample[0], donor_sample[1]))
+        variants.to_csv("{}/{}_{}.tsv.gz".format(directory, donor_sample[0], donor_sample[1]),
+                        sep='\t', compression='gzip')
