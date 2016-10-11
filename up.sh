@@ -19,7 +19,7 @@ sleep 10
 for domain in $domains; do
     echo "Launching and initializing $domain cgtd server"
     # Initialize its index. Can't check to see if its already without an ipns timeout wait
-    docker exec demo_ipfs_$domain sh -c "echo '{\"domain\": \"$domain\", \"submissions\": [], \"peers\": []}' | ipfs add -q | xargs ipfs name publish"
+    docker exec demo_ipfs_$domain sh -c "echo '{\"domain\": \"${domain,,}\", \"submissions\": [], \"peers\": []}' | ipfs add -q | xargs ipfs name publish"
     docker run -d --name demo_$domain --link demo_ipfs_$domain:ipfs \
         -v /data/icgc_extracted/$domain:/data \
         -v `pwd`/populate.py:/populate.py ga4gh/cgtd:0.1.0
