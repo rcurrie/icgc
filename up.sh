@@ -10,7 +10,7 @@ domains="Australia Brazil China European_Union France Germany Italy South_Korea 
 for domain in $domains; do
     echo "Launching and initializing $domain ipfs server"
     mkdir -p /data/ipfs/$domain
-    docker run -d --name demo_ipfs_$domain -P -v /data/ipfs/$domain:/data/ipfs ipfs/go-ipfs:v0.4.3
+    docker run -d --name demo_ipfs_$domain -P -v /data/ipfs/$domain:/data/ipfs ipfs/go-ipfs:release
 done
 
 echo "Waiting until ipfs servers are up..."
@@ -22,5 +22,5 @@ for domain in $domains; do
     docker exec demo_ipfs_$domain sh -c "echo '{\"domain\": \"${domain,,}\", \"submissions\": [], \"peers\": []}' | ipfs add -q | xargs ipfs name publish"
     docker run -d --name demo_$domain --link demo_ipfs_$domain:ipfs \
         -v /data/icgc_extracted/$domain:/data \
-        -v `pwd`/populate.py:/populate.py ga4gh/cgtd:0.1.0
+        -v `pwd`/populate.py:/populate.py ga4gh/cgtd:0.1.1
 done

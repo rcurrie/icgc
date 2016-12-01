@@ -10,7 +10,7 @@ domains="aacr.org nki.nl dana-farber.org gustaveroussy.fr hopkinsmedicine.org ms
 for domain in $domains; do
     echo "Launching and initializing $domain ipfs server"
     mkdir -p /data/ipfs/$domain
-    docker run -d --name genie_ipfs_$domain -P ipfs/go-ipfs:v0.4.3
+    docker run -d --name genie_ipfs_$domain -P ipfs/go-ipfs:release
 done
 
 echo "Waiting until ipfs servers are up..."
@@ -20,5 +20,5 @@ for domain in $domains; do
     echo "Launching and initializing $domain cgtd server"
     # Initialize its index. Can't check to see if its already without an ipns timeout wait
     docker exec genie_ipfs_$domain sh -c "echo '{\"domain\": \"$domain\", \"submissions\": [], \"peers\": []}' | ipfs add -q | xargs ipfs name publish"
-    docker run -d --name genie_$domain --link genie_ipfs_$domain:ipfs ga4gh/cgtd:0.1.0
+    docker run -d --name genie_$domain --link genie_ipfs_$domain:ipfs ga4gh/cgtd:0.1.1
 done
